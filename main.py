@@ -11,7 +11,17 @@ product_url = ('https://www.amazon.com/Apple-MacBook-16-inch-10%E2%80%91core-16%
 
 amazon_scraping = AmazonScraping(product_url=product_url)
 product_title = amazon_scraping.get_product_title()
-product_price_float = amazon_scraping.get_product_price_float()
+current_price = amazon_scraping.get_product_price_float()
 
 print(product_title)
-print(product_price_float)
+print(current_price)
+
+low_price_tracker_url = "https://camelcamelcamel.com/product/B09JQK9DK5"
+lowest_price = amazon_scraping.get_lowest_historic_price(low_price_tracker_url=low_price_tracker_url)
+
+print("Enter target price:")
+target_price = f'${input("$")}'
+if amazon_scraping.price_under_target(target_price=target_price, current_price=current_price):
+    print("email client that price is under target")
+else:
+    print("email client historic low price")

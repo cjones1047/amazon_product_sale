@@ -1,4 +1,5 @@
 from amazon_scraping import AmazonScraping
+from notification_manager import NotificationManager
 
 product_url = ('https://www.amazon.com/Apple-MacBook-16-inch-10%E2%80%91core-16%E2%80%91'
                'core/dp/B09JQK9DK5/ref=sr_1_2_sspa?'
@@ -21,7 +22,16 @@ lowest_price = amazon_scraping.get_lowest_historic_price(low_price_tracker_url=l
 
 print("Enter target price:")
 target_price = f'${input("$")}'
+notification_manager = NotificationManager()
+recipient_email = input("Enter your email:\n")
 if amazon_scraping.price_under_target(target_price=target_price, current_price=current_price):
-    print("email client that price is under target")
+    notification_manager.message_under_target(current_price=current_price,
+                                              product_title=product_title,
+                                              product_url=product_url,
+                                              recipient_email=recipient_email)
 else:
-    print("email client historic low price")
+    notification_manager.message_over_target(current_price=current_price,
+                                             product_title=product_title,
+                                             product_url=product_url,
+                                             lowest_price=lowest_price,
+                                             recipient_email=recipient_email)
